@@ -94,25 +94,60 @@ function PartnersSection() {
 }
 
 function GallerySection() {
+  const placements = [
+    'col-span-6 md:col-span-8 md:col-start-1',
+    'col-span-4 col-start-3 md:col-span-3 md:col-start-10 md:mt-24 md:self-end',
+    'col-span-5 col-start-1 md:col-span-4 md:col-start-2',
+    'col-span-6 md:col-span-6 md:col-start-7 md:mt-20',
+    'col-span-5 col-start-2 md:col-span-9 md:col-start-2',
+    'col-span-4 col-start-1 md:col-span-4 md:col-start-8',
+  ];
+
   return (
-    <section id="experiencia" className="section-space overflow-hidden bg-primary text-white" aria-label="Galeria da experiência">
+    <section id="experiencia" className="section-space bg-primary text-white" aria-label="Galeria da experiência">
       <div className="shell">
-        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
-          <SectionTitle light label="05 / A experiência" title="Encontros que ficam na memória." description="Um espaço para os registros reais das edições anteriores." />
-          <Camera size={48} strokeWidth={1} className="shrink-0 text-mint" aria-hidden="true" />
+        <div className="experience-reveal border-t border-white/20 pt-8 sm:pt-10">
+          <div className="mb-8 flex items-center justify-between gap-6" aria-hidden="true">
+            <span className="h-px w-20 bg-gradient-to-r from-mint via-cyan to-violet" />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">Fotografia · Conexão</span>
+          </div>
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end md:gap-12">
+            <SectionTitle light label="05 / A experiência" title="Encontros que ficam na memória." />
+            <p className="max-w-xs text-sm leading-7 text-white/70 md:pb-1">Um espaço para os registros reais das edições anteriores.</p>
+          </div>
         </div>
         {event.gallery.length ? (
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {event.gallery.map((photo, index) => <figure key={`${photo.src}-${index}`} className="overflow-hidden rounded-2xl bg-white/5"><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover transition-transform duration-500 hover:scale-[1.03]" /></figure>)}
+          <div className="mt-12 grid grid-cols-6 items-start gap-x-4 gap-y-12 sm:mt-16 sm:gap-x-6 sm:gap-y-16 md:grid-cols-12 md:gap-x-8 md:gap-y-24 lg:mt-20 lg:gap-y-28">
+            {event.gallery.map((photo, index) => (
+              <figure key={`${photo.src}-${index}`} className={`experience-reveal min-w-0 ${placements[index % placements.length]}`}>
+                <a href={photo.src} target="_blank" rel="noopener noreferrer" className="group block text-white">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={photo.width}
+                    height={photo.height}
+                    loading="lazy"
+                    decoding="async"
+                    className="block h-auto w-full object-contain transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.012] motion-safe:group-focus-visible:scale-[1.012]"
+                  />
+                  <span className="mt-4 flex min-h-11 flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-white/20 pt-2 text-xs">
+                    <span className="font-display tabular-nums tracking-[0.16em] text-white/55" aria-hidden="true">{String(index + 1).padStart(2, '0')} /</span>
+                    <span className="inline-flex items-center gap-2 font-semibold text-white/75 transition-colors duration-300 group-hover:text-mint group-focus-visible:text-mint">
+                      Ver original <ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" />
+                      <span className="sr-only"> — fotografia {index + 1} (nova aba)</span>
+                    </span>
+                  </span>
+                </a>
+              </figure>
+            ))}
           </div>
         ) : (
-          <div className="relative mt-10 flex min-h-64 flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-white/5 p-8 text-center">
-            <div aria-hidden="true" className="absolute -right-8 -top-16 size-56 rounded-full border-[36px] border-mint/10" />
-            <div aria-hidden="true" className="absolute -bottom-16 -left-14 size-48 rounded-full border-[32px] border-violet/15" />
-            <Camera size={30} className="relative mb-4 text-mint" strokeWidth={1.5} aria-hidden="true" />
-            <h3 className="relative font-display text-xl font-medium">Nossas histórias, em imagens.</h3>
-            <p className="relative mt-3 max-w-md text-sm leading-7 text-white/70">A galeria receberá fotografias reais das edições anteriores. Acompanhe também o Instagram oficial.</p>
-            <a href={event.instagramUrl} target="_blank" rel="noopener noreferrer" className="relative mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-mint"><Instagram size={17} aria-hidden="true" /> @collab.day <ArrowUpRight size={16} aria-hidden="true" /><span className="sr-only"> (nova aba)</span></a>
+          <div className="experience-reveal mt-12 grid gap-5 border-y border-white/15 py-12 sm:mt-16 md:grid-cols-12 md:gap-8 md:py-16">
+            <h3 className="font-display text-2xl font-medium leading-tight tracking-[-0.03em] sm:text-3xl md:col-span-5">Nossas histórias,<br />em imagens.</h3>
+            <div className="md:col-span-5 md:col-start-8">
+              <p className="max-w-md text-sm leading-7 text-white/70">A galeria receberá fotografias reais das edições anteriores. Acompanhe também o Instagram oficial.</p>
+              <a href={event.instagramUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-mint underline-offset-8 transition-colors hover:text-white hover:underline"><Instagram size={17} aria-hidden="true" /> @collab.day <ArrowUpRight size={16} aria-hidden="true" /><span className="sr-only"> (nova aba)</span></a>
+            </div>
           </div>
         )}
       </div>
